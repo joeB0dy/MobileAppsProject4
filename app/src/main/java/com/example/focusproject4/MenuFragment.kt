@@ -1,31 +1,85 @@
 package com.example.focusproject4
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
+import com.example.focusproject4.databinding.FragmentMenuBinding
 
-class MenuFragment : Fragment() {
+class MenuFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
 
-    companion object {
-        fun newInstance() = MenuFragment()
+    private lateinit var binding : FragmentMenuBinding
+    private lateinit var viewModel: MenuViewModel
+
+    var seekTimeMinValue = 10       //value for seekbar to translate into focus app.
+
+    var activityCallback : MenuFragment.MenuListener? = null
+
+    interface MenuListener{ //no body (no implementations.) Anything that calls it tho must implement this on click.
+        fun onButtonClick(timerValue : Int, text: String)
+    }
+    //next code function event handler on Attach
+
+    override fun onAttach(context: Context)
+    {
+        super.onAttach(context)
+        try{
+            activityCallback = context as MenuListener      //explicit MenuListener "cast" will otherwise crash.
+        }
+        catch (e: ClassCastException)
+        {
+            throw ClassCastException(context.toString() + "must implement MenuListener")
+        }
+
     }
 
-    private lateinit var viewModel: MenuViewModel
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_menu, container, false)
+        //where all is coded.
+        binding = FragmentMenuBinding.inflate(inflater, container, false)
+
+        binding.btnFocus.setOnClickListener {
+            buttonClicked(it)   //calls function below. connected to interface.
+        }
+        return binding.root
     }
+     fun changeTextProperties(textVal: Int){
+        binding.tvTime.text = textVal.toString()
+    }
+
+    private fun buttonClicked(view : View){
+        activityCallback?.onButtonClick(seekTimeMinValue, binding.tvTime.text.toString())
+    }
+
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
         // TODO: Use the ViewModel
+
     }
+//events concerned with seekbarListener.
+    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+        TODO("Not yet implemented")
+    seekTimeMinValue = progress //make progression of seekbar = our logic value.
+    }
+
+    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        TODO("Not yet implemented")
+    }
+
 
 }
