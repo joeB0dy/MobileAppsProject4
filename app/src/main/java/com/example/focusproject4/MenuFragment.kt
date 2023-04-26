@@ -16,7 +16,7 @@ import androidx.lifecycle.Observer
 import com.example.focusproject4.databinding.FragmentMenuBinding
 
 class MenuFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
-
+    var i = 0
     private lateinit var binding : FragmentMenuBinding
     private lateinit var viewModel: MenuViewModel
 
@@ -77,6 +77,7 @@ class MenuFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
     private fun buttonClicked(view : View){
         activityCallback?.onButtonClick(seekTimeMinValue, binding.tvTime.text.toString())
         binding.tvDescription.text = "FOCUS"
+
        viewModel.timer.start()
        timerStart()
     }
@@ -111,7 +112,9 @@ class MenuFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
 
     fun timerStart(){
         viewModel.currentTime.observe(viewLifecycleOwner, Observer{
-            binding.tvTime.text = seekTimeMinValue.toString() + ":" + DateUtils.formatElapsedTime(it)
+            viewModel.minute = seekTimeMinValue.toLong() +1000L
+                binding.tvTime.text = seekTimeMinValue.toString() + ":" + DateUtils.formatElapsedTime(it)
+
         })
     }
 

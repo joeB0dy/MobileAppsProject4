@@ -6,13 +6,14 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.focusproject4.databinding.FragmentMenuBinding
+import kotlin.time.Duration.Companion.minutes
 
 class MenuViewModel : ViewModel() {
-    var COUNT_TIMER = 59000L
+   var COUNT_TIMER = 59000L
     val ONE_SECOND = 1000L
     val DONE = 0L
 
-        //yeesh.
+        var minute = 0L
 
     var counterActive =false;
 
@@ -26,13 +27,13 @@ class MenuViewModel : ViewModel() {
     init {
         timer =  object:CountDownTimer(COUNT_TIMER, ONE_SECOND){
             override fun onTick(millisUntilFinished: Long) {
-                currentTime.value = millisUntilFinished/ONE_SECOND
+
+                    currentTime.value = millisUntilFinished / ONE_SECOND
 
             }
 
             override fun onFinish() {
                 currentTime.value = DONE
-                binding.tvDescription.text = "COMPLETE!"
             }
 
         }
