@@ -3,6 +3,7 @@ package com.example.focusproject4
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -45,17 +46,28 @@ class MenuFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
         savedInstanceState: Bundle?
     ): View? {
         //where all is coded.
+
+
+
         binding = FragmentMenuBinding.inflate(inflater, container, false)
+        binding.seekBar2.setOnSeekBarChangeListener(this)
+
 
         binding.btnFocus.setOnClickListener {
             buttonClicked(it)   //calls function below. connected to interface.
         }
+        //implement seekbar focus stuff. and timer to count down.
+
+
         return binding.root
     }
      fun changeTextProperties(textVal: Int){
-        binding.tvTime.text = textVal.toString()
-    }
+         Log.i("MenuFragment ","Value set to: " +textVal)
+         seekTimeMinValue = textVal
+        binding.tvTime.text = textVal.toString() + ":00"
 
+    }
+   //button clicked
     private fun buttonClicked(view : View){
         activityCallback?.onButtonClick(seekTimeMinValue, binding.tvTime.text.toString())
     }
@@ -69,16 +81,20 @@ class MenuFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
     }
 //events concerned with seekbarListener.
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        TODO("Not yet implemented")
+
+    Log.i("MenuFragment", "Progress is " + progress)
     seekTimeMinValue = progress //make progression of seekbar = our logic value.
+
+
+    //here is where the problem is for some reason.
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
-        TODO("Not yet implemented")
+
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        TODO("Not yet implemented")
+
     }
 
 
