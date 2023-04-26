@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity(), MenuFragment.MenuListener {
     }
 
     override fun onButtonClick(timerValue: Int, text: String) {
-       val textFragment = supportFragmentManager.findFragmentById(R.id.tvTime) as MenuFragment
+       val textFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as MenuFragment
 
         textFragment.changeTextProperties(timerValue)//function to be implemented.
     }       //checkout timer: CountdownTimer parameter for later use...
