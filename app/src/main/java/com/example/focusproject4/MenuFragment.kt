@@ -57,7 +57,7 @@ class MenuFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
             buttonClicked(it)   //calls function below. connected to interface.
         }
         //implement seekbar focus stuff. and timer to count down.
-
+        binding.seekBar2.setMax(90)
 
         return binding.root
     }
@@ -85,6 +85,7 @@ class MenuFragment : Fragment(), SeekBar.OnSeekBarChangeListener {
     Log.i("MenuFragment", "Progress is " + progress)
     seekTimeMinValue = progress //make progression of seekbar = our logic value.
 
+    binding.tvTime.text = progress.toString() + ":00"  //updates as changed.
 
     //here is where the problem is for some reason.
     }
